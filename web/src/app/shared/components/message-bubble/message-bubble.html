@@ -1,0 +1,18 @@
+@if (message.systemEvent) {
+  <div class="system-message">{{ message.text }}</div>
+} @else {
+  <div class="bubble-row" [class.own]="isOwn">
+    @if (showSenderName && !isOwn) {
+      <div class="sender-name">{{ senderName }}</div>
+    }
+    <div class="bubble" [class.own]="isOwn">
+      @if (message.attachment) {
+        <app-file-preview [attachment]="message.attachment" [type]="message.type" />
+      }
+      @if (message.text) {
+        <p class="bubble-text">{{ message.text }}</p>
+      }
+      <span class="bubble-time">{{ time }}</span>
+    </div>
+  </div>
+}

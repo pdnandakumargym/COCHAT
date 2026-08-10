@@ -1,0 +1,48 @@
+.avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #c7d2fe;
+  color: #3730a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28%;
+  height: 28%;
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-sizing: content-box;
+
+  &.online {
+    background: #22c55e;
+  }
+  &.away {
+    background: #f59e0b;
+  }
+  &.offline {
+    background: #9ca3af;
+  }
+}

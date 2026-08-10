@@ -1,0 +1,26 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <p class="auth-brand">CoChat</p>
+    <p class="auth-subtitle">Sign in to your team workspace</p>
+
+    @if (error()) {
+      <div class="error-banner">{{ error() }}</div>
+    }
+
+    <form (ngSubmit)="submit()">
+      <div class="field">
+        <label for="identifier">Email or mobile number</label>
+        <input id="identifier" name="identifier" type="text" [(ngModel)]="identifier" autocomplete="username" placeholder="you@company.com" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" [(ngModel)]="password" autocomplete="current-password" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">Don't have an account? <a routerLink="/register">Create one</a></p>
+  </div>
+</div>

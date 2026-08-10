@@ -1,0 +1,7 @@
+CoChat.xcodeproj/
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.swiftpm/
+.DS_Store

@@ -1,0 +1,41 @@
+<div class="create-group-page">
+  <header class="page-header">
+    <a routerLink="/chats" class="back-link">← Back</a>
+    <h1>New Group</h1>
+  </header>
+
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+
+  <div class="field">
+    <label>Group name</label>
+    <input type="text" [(ngModel)]="name" placeholder="e.g. Project Phoenix" />
+  </div>
+
+  <div class="field">
+    <label>Add members ({{ selectedCount }} selected)</label>
+    <input type="text" [(ngModel)]="query" (ngModelChange)="onQueryChange()" placeholder="Search team members…" />
+  </div>
+
+  @if (loading()) {
+    <div class="center-note">Loading team…</div>
+  } @else {
+    <ul class="member-list">
+      @for (member of members(); track member.id) {
+        <li class="member-item" (click)="toggle(member.id)">
+          <input type="checkbox" [checked]="isSelected(member.id)" (click)="$event.stopPropagation(); toggle(member.id)" />
+          <app-avatar [src]="member.profilePicture" [name]="member.fullName" [size]="38" />
+          <div class="member-info">
+            <div class="member-name">{{ member.fullName }}</div>
+            <div class="member-meta">{{ member.designation || 'Team member' }}</div>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  <button class="btn-primary" (click)="create()" [disabled]="saving()">
+    {{ saving() ? 'Creating…' : 'Create group' }}
+  </button>
+</div>

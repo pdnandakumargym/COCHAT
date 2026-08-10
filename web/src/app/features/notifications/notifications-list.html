@@ -1,0 +1,32 @@
+<div class="notifications-page">
+  <header class="page-header">
+    <h1>Notifications</h1>
+    @if (store.notifications().length > 0) {
+      <button class="link-btn" (click)="markAllRead()">Mark all read</button>
+    }
+  </header>
+
+  @if (store.notifications().length === 0) {
+    <div class="empty-state">You're all caught up.</div>
+  } @else {
+    <ul class="notif-list">
+      @for (n of store.notifications(); track n._id) {
+        <li class="notif-item" [class.unread]="!n.read" (click)="open(n)">
+          @if (n.actor) {
+            <app-avatar [src]="n.actor.profilePicture" [name]="n.actor.fullName" [size]="40" />
+          } @else {
+            <span class="notif-icon">{{ icon(n.type) }}</span>
+          }
+          <div class="notif-body">
+            <div class="notif-title">{{ n.title }}</div>
+            <div class="notif-text">{{ n.body }}</div>
+            <div class="notif-time">{{ n.createdAt | date: 'medium' }}</div>
+          </div>
+          @if (!n.read) {
+            <span class="unread-dot"></span>
+          }
+        </li>
+      }
+    </ul>
+  }
+</div>

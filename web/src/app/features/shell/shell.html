@@ -1,0 +1,39 @@
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">CoChat</div>
+
+    <nav class="nav">
+      <a routerLink="/chats" routerLinkActive="active" class="nav-item">
+        <span class="icon">💬</span> Chats
+        @if (store.totalUnreadChats() > 0) {
+          <span class="badge">{{ store.totalUnreadChats() }}</span>
+        }
+      </a>
+      <a routerLink="/team" routerLinkActive="active" class="nav-item">
+        <span class="icon">👥</span> Team Members
+      </a>
+      <a routerLink="/notifications" routerLinkActive="active" class="nav-item">
+        <span class="icon">🔔</span> Notifications
+        @if (store.unreadNotificationCount() > 0) {
+          <span class="badge">{{ store.unreadNotificationCount() }}</span>
+        }
+      </a>
+      <a routerLink="/settings" routerLinkActive="active" class="nav-item">
+        <span class="icon">⚙️</span> Settings
+      </a>
+    </nav>
+
+    <a routerLink="/profile" class="user-card">
+      <app-avatar [src]="auth.currentUser()?.profilePicture || ''" [name]="auth.currentUser()?.fullName || ''" [status]="myStatus" [size]="36" />
+      <div class="user-info">
+        <div class="user-name">{{ auth.currentUser()?.fullName }}</div>
+        <div class="user-designation">{{ auth.currentUser()?.designation || 'View profile' }}</div>
+      </div>
+    </a>
+    <button class="logout-btn" (click)="logout()">Log out</button>
+  </aside>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

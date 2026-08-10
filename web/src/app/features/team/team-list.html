@@ -1,0 +1,33 @@
+<div class="team-page">
+  <header class="page-header">
+    <h1>Team Members</h1>
+  </header>
+
+  <input
+    class="search-input"
+    type="text"
+    placeholder="Search by name, email, mobile, or designation…"
+    [(ngModel)]="query"
+    (ngModelChange)="onQueryChange()"
+  />
+
+  @if (loading()) {
+    <div class="center-note">Loading team…</div>
+  } @else if (members().length === 0) {
+    <div class="center-note">No team members match your search.</div>
+  } @else {
+    <ul class="member-list">
+      @for (member of members(); track member.id) {
+        <li class="member-item">
+          <app-avatar [src]="member.profilePicture" [name]="member.fullName" [status]="status(member)" [size]="48" />
+          <div class="member-info">
+            <div class="member-name">{{ member.fullName }}</div>
+            <div class="member-meta">{{ member.designation || 'Team member' }}</div>
+            <div class="member-contact">{{ member.email || member.mobile }}</div>
+          </div>
+          <button class="chat-btn" (click)="startChat(member)">Message</button>
+        </li>
+      }
+    </ul>
+  }
+</div>

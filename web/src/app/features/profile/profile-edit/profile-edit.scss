@@ -1,0 +1,110 @@
+.profile-edit-page {
+  height: 100%;
+  overflow-y: auto;
+  padding: 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.back-link {
+  color: #4338ca;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 1.3rem;
+  margin: 12px 0 20px;
+}
+
+.error-banner {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.success-banner {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.avatar-upload {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.avatar-edit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #4338ca;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  border: 2px solid #fff;
+}
+
+.field {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: #4f46e5;
+    }
+  }
+
+  &.readonly input {
+    background: #f9fafb;
+    color: #9ca3af;
+  }
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: #4338ca;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

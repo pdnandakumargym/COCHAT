@@ -1,0 +1,66 @@
+<div class="thread-page">
+  <header class="thread-header">
+    <a routerLink="/chats" class="back-link">←</a>
+    @if (chat(); as c) {
+      <app-avatar [src]="headerAvatar" [name]="headerName" [status]="headerStatus" [size]="40" />
+      <div class="header-info" [class.clickable]="c.type === 'group'" (click)="goToGroupInfo()">
+        <div class="header-name">{{ headerName }}</div>
+        <div class="header-subtitle">{{ typingLabel || headerSubtitle }}</div>
+      </div>
+    }
+  </header>
+
+  <div class="messages-scroll" #scrollArea>
+    @if (loading()) {
+      <div class="center-note">Loading messages…</div>
+    } @else {
+      @if (hasMore() && messages().length > 0) {
+        <div class="load-older">
+          <button (click)="loadOlder()" [disabled]="loadingOlder()">
+            {{ loadingOlder() ? 'Loading…' : 'Load older messages' }}
+          </button>
+        </div>
+      }
+      @if (messages().length === 0) {
+        <div class="center-note">Say hello 👋 — no messages yet.</div>
+      }
+      @for (message of messages(); track message._id) {
+        <app-message-bubble
+          [message]="message"
+          [isOwn]="isOwnMessage(message)"
+          [showSenderName]="chat()?.type === 'group'"
+        />
+      }
+    }
+  </div>
+
+  <div class="composer">
+    @if (selectedFile) {
+      <div class="file-chip-preview">
+        <span>📎 {{ selectedFile.name }}</span>
+        <button (click)="clearFile()">✕</button>
+      </div>
+    }
+    @if (showEmojiPicker) {
+      <div class="emoji-popover">
+        @for (emoji of emojis; track emoji) {
+          <button (click)="addEmoji(emoji)">{{ emoji }}</button>
+        }
+      </div>
+    }
+    <div class="composer-row">
+      <button class="icon-btn" (click)="fileInput.click()" title="Attach file">📎</button>
+      <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+      <button class="icon-btn" (click)="showEmojiPicker = !showEmojiPicker" title="Emoji">😊</button>
+      <input
+        class="composer-input"
+        type="text"
+        placeholder="Type a message…"
+        [(ngModel)]="draftText"
+        (ngModelChange)="onInputChange()"
+        (keyup.enter)="send()"
+      />
+      <button class="send-btn" (click)="send()">Send</button>
+    </div>
+  </div>
+</div>

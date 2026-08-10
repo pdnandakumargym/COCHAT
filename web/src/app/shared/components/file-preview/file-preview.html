@@ -1,0 +1,16 @@
+@if (type === 'image') {
+  <a [href]="attachment.url" target="_blank" rel="noopener" class="media-preview">
+    <img [src]="attachment.url" [alt]="attachment.fileName" />
+  </a>
+} @else if (type === 'video') {
+  <video class="media-preview" [src]="attachment.url" controls></video>
+} @else {
+  <a [href]="attachment.url" target="_blank" rel="noopener" class="file-chip">
+    <span class="file-icon">📄</span>
+    <span class="file-meta">
+      <span class="file-name">{{ attachment.fileName }}</span>
+      <span class="file-size">{{ formatSize(attachment.size) }}</span>
+    </span>
+    <span class="file-download">Download</span>
+  </a>
+}

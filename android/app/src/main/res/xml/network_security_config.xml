@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Cleartext HTTP is allowed only for local development hosts: the Android
+         emulator's host-loopback alias (10.0.2.2) and a physical device on the
+         same LAN as the dev machine. Production builds should point BASE_URL
+         at an https:// backend, which does not need this exemption. -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,27 @@
+<div class="profile-page">
+  @if (auth.currentUser(); as user) {
+    <div class="profile-hero">
+      <app-avatar [src]="user.profilePicture" [name]="user.fullName" [status]="status" [size]="96" />
+      <h1>{{ user.fullName }}</h1>
+      <p class="designation">{{ user.designation || 'Team member' }}</p>
+      <span class="status-pill" [class]="status">{{ status }}</span>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-row">
+        <span class="label">Email</span>
+        <span class="value">{{ user.email || '—' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Mobile</span>
+        <span class="value">{{ user.mobile || '—' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Designation</span>
+        <span class="value">{{ user.designation || '—' }}</span>
+      </div>
+    </div>
+
+    <a routerLink="/profile/edit" class="btn-primary">Edit profile</a>
+  }
+</div>

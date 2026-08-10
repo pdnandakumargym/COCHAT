@@ -1,0 +1,38 @@
+<div class="chat-list-page">
+  <header class="page-header">
+    <h1>Chats</h1>
+    <div class="actions">
+      <a routerLink="/team" class="btn-secondary">+ New chat</a>
+      <a routerLink="/groups/new" class="btn-primary">+ New group</a>
+    </div>
+  </header>
+
+  @if (sortedChats.length === 0) {
+    <div class="empty-state">
+      <p>No conversations yet.</p>
+      <a routerLink="/team">Find a team member to start chatting</a>
+    </div>
+  } @else {
+    <ul class="chat-items">
+      @for (chat of sortedChats; track chat.id) {
+        <li class="chat-item" (click)="open(chat.id)">
+          <app-avatar [src]="displayAvatar(chat)" [name]="displayName(chat)" [status]="displayStatus(chat)" [size]="48" />
+          <div class="chat-info">
+            <div class="chat-top-row">
+              <span class="chat-name">{{ displayName(chat) }}</span>
+              @if (chat.lastMessage) {
+                <span class="chat-time">{{ chat.lastMessage.createdAt | date: 'shortTime' }}</span>
+              }
+            </div>
+            <div class="chat-bottom-row">
+              <span class="chat-preview">{{ previewText(chat) }}</span>
+              @if (chat.unreadCount > 0) {
+                <span class="unread-badge">{{ chat.unreadCount }}</span>
+              }
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

@@ -1,0 +1,90 @@
+.team-page {
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px 32px;
+}
+
+.page-header h1 {
+  margin: 0 0 18px;
+  font-size: 1.4rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 480px;
+  padding: 10px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #4f46e5;
+  }
+}
+
+.center-note {
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.member-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.member-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-name {
+  font-weight: 600;
+  font-size: 0.94rem;
+}
+
+.member-meta {
+  font-size: 0.8rem;
+  color: #4338ca;
+}
+
+.member-contact {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.chat-btn {
+  background: #eef2ff;
+  color: #3730a3;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #e0e7ff;
+  }
+}

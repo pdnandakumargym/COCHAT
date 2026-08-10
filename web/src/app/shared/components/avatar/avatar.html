@@ -1,0 +1,10 @@
+<div class="avatar-wrap" [style.width.px]="size" [style.height.px]="size">
+  @if (src) {
+    <img [src]="src" [alt]="name" class="avatar-img" />
+  } @else {
+    <div class="avatar-fallback" [style.font-size.px]="size * 0.4">{{ initials }}</div>
+  }
+  @if (status) {
+    <span class="status-dot" [class]="status"></span>
+  }
+</div>

@@ -1,0 +1,43 @@
+<div class="profile-edit-page">
+  <a routerLink="/profile" class="back-link">← Back to profile</a>
+  <h1>Edit profile</h1>
+
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+  @if (success()) {
+    <div class="success-banner">{{ success() }}</div>
+  }
+
+  <div class="avatar-upload">
+    <app-avatar [src]="auth.currentUser()?.profilePicture || ''" [name]="auth.currentUser()?.fullName || ''" [size]="84" />
+    <label class="avatar-edit-btn">
+      {{ uploadingAvatar() ? '…' : '✎' }}
+      <input type="file" accept="image/*" hidden (change)="onAvatarSelected($event)" [disabled]="uploadingAvatar()" />
+    </label>
+  </div>
+
+  <div class="field">
+    <label>Full name</label>
+    <input type="text" [(ngModel)]="fullName" />
+  </div>
+
+  <div class="field">
+    <label>Designation</label>
+    <input type="text" [(ngModel)]="designation" placeholder="e.g. Product Manager" />
+  </div>
+
+  <div class="field readonly">
+    <label>Email</label>
+    <input type="text" [value]="auth.currentUser()?.email || '—'" disabled />
+  </div>
+
+  <div class="field readonly">
+    <label>Mobile</label>
+    <input type="text" [value]="auth.currentUser()?.mobile || '—'" disabled />
+  </div>
+
+  <button class="btn-primary" (click)="save()" [disabled]="saving()">
+    {{ saving() ? 'Saving…' : 'Save changes' }}
+  </button>
+</div>

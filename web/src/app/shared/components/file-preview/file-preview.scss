@@ -1,0 +1,56 @@
+.media-preview {
+  display: block;
+  max-width: 260px;
+  border-radius: 10px;
+  overflow: hidden;
+
+  img,
+  video {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+  }
+}
+
+.file-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  max-width: 260px;
+}
+
+.file-icon {
+  font-size: 1.4rem;
+}
+
+.file-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.file-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.file-download {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4338ca;
+}
