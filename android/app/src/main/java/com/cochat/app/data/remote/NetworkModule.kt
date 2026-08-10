@@ -17,11 +17,11 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 
 object NetworkConfig {
-    // 10.0.2.2 is the Android emulator's alias for the host machine's localhost.
-    // For a physical device on the same LAN, replace with the dev machine's IP
-    // (and add it to network_security_config.xml, since it's plain HTTP).
-    const val BASE_URL = "http://10.0.2.2:4000/api/"
-    const val SOCKET_URL = "http://10.0.2.2:4000"
+    // Deployed backend (Render). HTTPS, so no cleartext network-security
+    // exception is needed — that config in network_security_config.xml only
+    // covers the emulator-only http://10.0.2.2 dev path.
+    const val BASE_URL = "https://cochat-1.onrender.com/api/"
+    const val SOCKET_URL = "https://cochat-1.onrender.com"
 }
 
 private val json = Json { ignoreUnknownKeys = true; explicitNulls = false }
