@@ -6,8 +6,8 @@ enum NetworkConfig {
     // alias needed (unlike Android). For a physical device on the same LAN,
     // swap this for the dev machine's LAN IP and add it to the ATS exception
     // list in project.yml; a production build should point at https:// instead.
-    static let baseURL = URL(string: "http://localhost:4000/api/")!
-    static let socketURL = URL(string: "http://localhost:4000")!
+    static let baseURL = URL(string: "https://cochat-one.vercel.app/api/")!
+    static let socketURL = URL(string: "https://cochat-one.vercel.app")!
 }
 
 struct APIError: Error, LocalizedError {
