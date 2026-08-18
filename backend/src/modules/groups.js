@@ -58,6 +58,14 @@ async function logSystemMessage(chat, text, event) {
     systemEvent: event,
     readBy: [],
   });
+  // The client decodes `sender` as a full { _id, fullName, profilePicture }
+  // object (see Android Message/MessageSender). Without this populate call,
+  // `sender` is emitted as a bare ObjectId string, which the app's JSON
+  // decoder cannot parse as an object -- that decode throws inside the
+  // socket.io event callback (no try/catch there), which crashes the whole
+  // app on every other member's device the instant they receive this
+  // system message (group created/member added/removed/left).
+  await message.populate('sender', 'fullName profilePicture');
   chat.lastMessage = { text, type: 'text', createdAt: message.createdAt };
   await chat.save();
   io?.to(`chat:${chat._id}`).emit('message:new', { message, chatId: chat._id });

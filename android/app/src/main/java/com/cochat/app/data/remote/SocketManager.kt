@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.serialization.json.Json
 import org.json.JSONObject
 
+private const val TAG = "SocketManager"
+
 sealed class SocketEvent {
     data class PresenceUpdate(val userId: String, val status: String) : SocketEvent()
     data class MessageNew(val message: Message, val chatId: String) : SocketEvent()
@@ -34,37 +36,56 @@ class SocketManager {
         val options = IO.Options.builder().setAuth(mapOf("token" to token)).build()
         val s = IO.socket(java.net.URI.create(NetworkConfig.SOCKET_URL), options)
 
+        // Every listener below runs on socket.io-client's own event thread, not
+        // the main thread. Any exception thrown out of that thread (e.g. a
+        // payload that doesn't match the expected shape) has no handler and
+        // crashes the whole app process. Guard each one so a bad/unexpected
+        // payload is logged and dropped instead of taking the app down.
         s.on("presence:update") { args ->
-            val o = args[0] as JSONObject
-            emit(SocketEvent.PresenceUpdate(o.getString("userId"), o.getString("status")))
+            safely("presence:update") {
+                val o = args[0] as JSONObject
+                emit(SocketEvent.PresenceUpdate(o.getString("userId"), o.getString("status")))
+            }
         }
         s.on("message:new") { args ->
-            val o = args[0] as JSONObject
-            val message = json.decodeFromString<Message>(o.getJSONObject("message").toString())
-            emit(SocketEvent.MessageNew(message, o.getString("chatId")))
+            safely("message:new") {
+                val o = args[0] as JSONObject
+                val message = json.decodeFromString<Message>(o.getJSONObject("message").toString())
+                emit(SocketEvent.MessageNew(message, o.getString("chatId")))
+            }
         }
         s.on("chat:updated") { args ->
-            val o = args[0] as JSONObject
-            val chat = json.decodeFromString<ChatSummary>(o.getJSONObject("chat").toString())
-            emit(SocketEvent.ChatUpdated(chat))
+            safely("chat:updated") {
+                val o = args[0] as JSONObject
+                val chat = json.decodeFromString<ChatSummary>(o.getJSONObject("chat").toString())
+                emit(SocketEvent.ChatUpdated(chat))
+            }
         }
         s.on("chat:read") { args ->
-            val o = args[0] as JSONObject
-            emit(SocketEvent.ChatRead(o.getString("chatId"), o.getString("userId")))
+            safely("chat:read") {
+                val o = args[0] as JSONObject
+                emit(SocketEvent.ChatRead(o.getString("chatId"), o.getString("userId")))
+            }
         }
         s.on("group:updated") { args ->
-            val o = args[0] as JSONObject
-            val chat = json.decodeFromString<GroupInfo>(o.getJSONObject("chat").toString())
-            emit(SocketEvent.GroupUpdated(chat, o.getString("action")))
+            safely("group:updated") {
+                val o = args[0] as JSONObject
+                val chat = json.decodeFromString<GroupInfo>(o.getJSONObject("chat").toString())
+                emit(SocketEvent.GroupUpdated(chat, o.getString("action")))
+            }
         }
         s.on("typing:update") { args ->
-            val o = args[0] as JSONObject
-            emit(SocketEvent.TypingUpdate(o.getString("chatId"), o.getString("userId"), o.getBoolean("isTyping")))
+            safely("typing:update") {
+                val o = args[0] as JSONObject
+                emit(SocketEvent.TypingUpdate(o.getString("chatId"), o.getString("userId"), o.getBoolean("isTyping")))
+            }
         }
         s.on("notification:new") { args ->
-            val o = args[0] as JSONObject
-            val notification = json.decodeFromString<AppNotification>(o.getJSONObject("notification").toString())
-            emit(SocketEvent.NotificationNew(notification))
+            safely("notification:new") {
+                val o = args[0] as JSONObject
+                val notification = json.decodeFromString<AppNotification>(o.getJSONObject("notification").toString())
+                emit(SocketEvent.NotificationNew(notification))
+            }
         }
 
         s.connect()
@@ -83,5 +104,13 @@ class SocketManager {
 
     private fun emit(event: SocketEvent) {
         _events.tryEmit(event)
+    }
+
+    private inline fun safely(event: String, block: () -> Unit) {
+        try {
+            block()
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Failed to handle socket event '$event'", e)
+        }
     }
 }
