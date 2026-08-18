@@ -45,7 +45,12 @@ async function chatSummary(chat, currentUserId) {
   const summary = {
     id: chat._id,
     type: chat.type,
-    lastMessage: chat.lastMessage?.createdAt ? chat.lastMessage : null,
+    // Also guard against already-stored chats whose lastMessage predates
+    // the senderId fix above (e.g. system messages logged before this
+    // change) -- the Android client's LastMessage.senderId has no default,
+    // so an object missing it must never reach the client; null is safe
+    // (renders as no preview) where a crash is not.
+    lastMessage: chat.lastMessage?.createdAt && chat.lastMessage?.senderId ? chat.lastMessage : null,
     unreadCount,
     updatedAt: chat.updatedAt,
   };

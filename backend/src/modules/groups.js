@@ -74,7 +74,11 @@ async function logSystemMessage(chat, text, event) {
   // app on every other member's device the instant they receive this
   // system message (group created/member added/removed/left).
   await message.populate('sender', 'fullName profilePicture');
-  chat.lastMessage = { text, type: 'text', createdAt: message.createdAt };
+  // senderId is required by the Android client's LastMessage model (no
+  // default there) -- omitting it here is exactly what crashed the app the
+  // instant anyone opened it after a group-created/member-added/removed/left
+  // event, since GET /chats decodes every chat's lastMessage on login.
+  chat.lastMessage = { text, senderId: chat.createdBy, type: 'text', createdAt: message.createdAt };
   await chat.save();
   io?.to(`chat:${chat._id}`).emit('message:new', { message, chatId: chat._id });
 }
