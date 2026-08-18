@@ -37,12 +37,20 @@ async function groupInfo(chat) {
     createdAt: chat.createdAt,
     members: chat.members.map((m) => {
       const u = usersById.get(m.user.toString());
+      // The Android GroupMember model has no default for `fullName` -- if `u`
+      // were ever missing (e.g. a member whose account no longer exists) this
+      // key would come out `undefined`, JSON.stringify would drop it from the
+      // payload entirely, and the client's JSON decoder throws a
+      // MissingFieldException with no try/catch around it wherever this
+      // object reaches the app uncaught (this is what crashed the app when
+      // adding a member -- see GroupInfoScreen.kt). Falling back to
+      // placeholders guarantees every key the client requires is present.
       return {
         id: m.user,
         role: m.role,
-        fullName: u?.fullName,
-        profilePicture: u?.profilePicture,
-        designation: u?.designation,
+        fullName: u?.fullName ?? 'Unknown user',
+        profilePicture: u?.profilePicture ?? '',
+        designation: u?.designation ?? '',
         status: presence.getStatus(m.user.toString()),
       };
     }),
