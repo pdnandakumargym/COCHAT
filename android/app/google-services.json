@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "556251505521",
+    "firebase_url": "https://android-b2fb7.firebaseio.com",
+    "project_id": "android-b2fb7",
+    "storage_bucket": "android-b2fb7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556251505521:android:03b3ea4abd629566cc8cd0",
+        "android_client_info": {
+          "package_name": "com.cochat.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNvoIK_eYy2IjdMAyEdH-PTW73H-hnG-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556251505521:android:3701e87ddb0b8ae6cc8cd0",
+        "android_client_info": {
+          "package_name": "com.nanda.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNvoIK_eYy2IjdMAyEdH-PTW73H-hnG-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

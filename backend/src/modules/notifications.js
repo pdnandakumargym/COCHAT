@@ -3,6 +3,7 @@ const Notification = require('../models/Notification');
 const asyncHandler = require('../utils/asyncHandler');
 const { requireAuth } = require('../middleware/auth');
 const ApiError = require('../utils/ApiError');
+const { sendPushToUser } = require('./push');
 
 const router = express.Router();
 router.use(requireAuth);
@@ -22,6 +23,19 @@ async function createNotification({ userId, type, title, body, chatId, actorId }
     actor: actorId,
   });
   if (io) io.to(`user:${userId}`).emit('notification:new', { notification });
+
+  // Fire-and-forget: push delivery shouldn't block or fail the request that
+  // triggered this notification (sending a message, adding a member, etc).
+  sendPushToUser(userId, {
+    title,
+    body,
+    data: {
+      type,
+      chatId: chatId ? chatId.toString() : '',
+      notificationId: notification._id.toString(),
+    },
+  }).catch((err) => console.error('[push] failed to deliver', err));
+
   return notification;
 }
 

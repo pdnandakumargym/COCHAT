@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema(
     },
     lastSeen: { type: Date, default: Date.now },
     refreshTokens: { type: [refreshTokenSchema], default: [] },
+    // FCM registration tokens for every device this user is signed into.
+    // A device is added on login/app-start and removed on logout or once
+    // FCM reports it as dead (see modules/push.js).
+    pushTokens: { type: [String], default: [] },
   },
   { timestamps: true }
 );

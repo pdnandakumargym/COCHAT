@@ -51,6 +51,32 @@ router.post(
   })
 );
 
+const pushTokenSchema = Joi.object({ token: Joi.string().required() });
+
+router.post(
+  '/me/push-token',
+  asyncHandler(async (req, res) => {
+    const { value, error } = pushTokenSchema.validate(req.body);
+    if (error) throw ApiError.badRequest('token is required', error.details);
+    if (!req.user.pushTokens.includes(value.token)) {
+      req.user.pushTokens.push(value.token);
+      await req.user.save();
+    }
+    res.status(204).send();
+  })
+);
+
+router.delete(
+  '/me/push-token',
+  asyncHandler(async (req, res) => {
+    const { value, error } = pushTokenSchema.validate(req.body);
+    if (error) throw ApiError.badRequest('token is required', error.details);
+    req.user.pushTokens = req.user.pushTokens.filter((t) => t !== value.token);
+    await req.user.save();
+    res.status(204).send();
+  })
+);
+
 router.get(
   '/',
   asyncHandler(async (req, res) => {
